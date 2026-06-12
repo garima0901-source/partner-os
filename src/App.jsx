@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const API = "/api/claude";
 
-async function callClaude(system, user, maxTokens = 800) {
+async function callClaude(system, user, maxTokens = 700) {
   const res = await fetch(API, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -145,7 +145,7 @@ export default function PartnerOS() {
     setLoadingPitch(true); setPitchResult(null);
     try {
       const raw = await callClaude(
-        `You are a partnerships strategist building a joint go-to-market pitch. Return ONLY valid JSON: { "joint_tagline": "one punchy line for the combined offering", "combined_value_prop": "2 sentences on what customers get together that they can't get separately", "target_segment": "specific customer profile to lead with", "key_messages": ["message 1", "message 2", "message 3"], "objection_responses": [ { "objection": "common objection", "response": "how to handle it" }, { "objection": "second objection", "response": "how to handle it" } ], "pilot_proposal": "how to structure a 30-day co-sell pilot", "talk_track": "opening line for a joint customer call" }`,
+        `You are a partnerships strategist. Return ONLY valid JSON with these exact keys: { "joint_tagline": "one line", "combined_value_prop": "2 sentences", "target_segment": "one sentence", "key_messages": ["msg1", "msg2", "msg3"], "objection_responses": [{"objection": "objection1", "response": "response1"}, {"objection": "objection2", "response": "response2"}], "pilot_proposal": "one paragraph", "talk_track": "one sentence" }. Be concise, under 50 words per field.`,
         `Our company: ${pitchYours}\nPartner: ${pitchPartner}\nTarget customer segment: ${pitchSegment || "mid-market B2B SaaS companies"}`,
         900
       );
